@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.ControlRequest;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -27,7 +28,7 @@ public class Climb extends SubsystemBase {
     private double targetRPS = 0.0; // Positive = Counter Clockwise, Negative = Clockwise, initially at rest
 
     private TalonFX m_leader, m_follower;
-    private VelocityVoltage m_velocityRequest = new VelocityVoltage(0).withSlot(0);
+    private PositionVoltage m_PositionRequest = new PositionVoltage(0).withSlot(0);
 
     public Climb() {
         this.m_follower = new TalonFX(1, CAN_BUS);
@@ -112,8 +113,8 @@ public class Climb extends SubsystemBase {
     public void periodic() {
         // Update the motor's velocity
         if (!atSetpoint()) {
-            m_velocityRequest.Velocity = targetRPS;
-            setControl(m_velocityRequest);
+            m_PositionRequest.Position = targetRPS;
+            setControl(m_PositionRequest);
         }
 
         // Display important information on SmartDashboard
